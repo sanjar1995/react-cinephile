@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide,useSwiper  } from "swiper/react";
 import nextImg from "@i/next_img.png";
 import upcomingImg from "@i/bg.png";
 // Import Swiper styles
@@ -18,11 +18,17 @@ async function getUpcoming(){
 }
 export default function Upcoming() {
   const { data,isLoading  } = useQuery(["upcoming"],  getUpcoming);
-  console.log(data,isLoading);
-  
-  
-  
   const line = useRef<HTMLDivElement | null>(null);
+  const [activeSlide, setactiveSlide] = useState<number>(1)
+  const handleSlideChange = (swiper:any) => {
+    setactiveSlide(swiper.activeIndex + 1); 
+    console.log(activeSlide);
+    
+ };
+
+
+  
+
   const onAutoplayTimeLeft = (a:any,b:any,progress: any) => {
     if (line.current) {
       line.current.style.width = `${(1 - progress) * 100}%`;
@@ -32,7 +38,7 @@ export default function Upcoming() {
   if(isLoading) return <h1>Loading...</h1>
   return (
     <Swiper
-      centeredSlides={true}
+    onSlideChange={handleSlideChange}
       autoplay={{
         delay: 10000,
         disableOnInteraction: false,
@@ -40,7 +46,6 @@ export default function Upcoming() {
       navigation={
         {nextEl:'.upcoming__progress'}
       }
-      loop={true}
       modules={[Autoplay, Pagination, Navigation]}
       onAutoplayTimeLeft={onAutoplayTimeLeft}
       className="mySwiper upcoming"
@@ -48,7 +53,7 @@ export default function Upcoming() {
       {
         data?.map((upcoming:any)=>(
           <SwiperSlide key={upcoming.id} className="upcoming__slide">
-          <img src={`https://image.tmdb.org/t/p/original/${upcoming.backdrop_path}`} alt="" className="upcoming__slide-img" />
+          <img src={`${import.meta.env.VITE_IMG_FULL + upcoming.backdrop_path}`} alt="" className="upcoming__slide-img" />
           <h2 className="upcoming__slide-title">
             {upcoming.title}
           </h2>
@@ -86,7 +91,7 @@ export default function Upcoming() {
         slot="container-end"
       >
         <p className="upcoming__progress-text">Следующий</p>
-        <h3 className="upcoming__progress-title">Tor</h3>
+        <h3 className="upcoming__progress-title">{data[activeSlide].title}</h3>
         <img src={nextImg} alt="" className="upcoming__progress-img" />
         <div className="line" ref={line}></div>
       </div>
