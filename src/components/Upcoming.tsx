@@ -1,65 +1,52 @@
-import React, { useEffect, useRef, useState } from "react";
+import {useRef, useState } from "react";
 // Import Swiper React components
-import { Swiper, SwiperSlide,useSwiper  } from "swiper/react";
+import { Swiper, SwiperSlide } from "swiper/react";
 import nextImg from "@i/next_img.png";
 import upcomingImg from "@i/bg.png";
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
-import { useQuery } from "@tanstack/react-query";
-
-// import required modules
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
-import api from "../Interceptor";
-async function getUpcoming(){
-  
-  let {data} = await api.get('movie/upcoming')
-  return data.results
-}
+import useApi from "../hooks/useApi";
 export default function Upcoming() {
-  const { data,isLoading  } = useQuery(["upcoming"],  getUpcoming);
-  const line = useRef<HTMLDivElement | null>(null);
-  const [activeSlide, setactiveSlide] = useState<number>(1)
-  const handleSlideChange = (swiper:any) => {
-    setactiveSlide(swiper.activeIndex + 1); 
-    console.log(activeSlide);
-    
- };
-
-
+  const { data, loading } = useApi("movie/upcoming");
   
-
-  const onAutoplayTimeLeft = (a:any,b:any,progress: any) => {
-    if (line.current) {
-      line.current.style.width = `${(1 - progress) * 100}%`;
-      
+  const line = useRef<HTMLDivElement | null>(null);
+  const [activeSlide, setactiveSlide] = useState<number>(1);
+  const handleSlideChange = (swiper: any) => {
+    if (swiper.activeIndex == 19) {
+      setactiveSlide(0);
+    } else {
+      setactiveSlide(swiper.activeIndex + 1);
     }
   };
-  if(isLoading) return <h1>Loading...</h1>
+  const onAutoplayTimeLeft = (a: any, b: any, progress: any) => {
+    if (line.current) {
+      line.current.style.width = `${(1 - progress) * 100}%`;
+    }
+  };
+  if (loading) return <h1>Loading...</h1>;
   return (
     <Swiper
-    onSlideChange={handleSlideChange}
+      loop={true}
+      onSlideChange={handleSlideChange}
       autoplay={{
         delay: 10000,
         disableOnInteraction: false,
       }}
-      navigation={
-        {nextEl:'.upcoming__progress'}
-      }
+      navigation={{ nextEl: ".upcoming__progress" }}
       modules={[Autoplay, Pagination, Navigation]}
       onAutoplayTimeLeft={onAutoplayTimeLeft}
       className="mySwiper upcoming"
     >
-      {
-        data?.map((upcoming:any)=>(
-          <SwiperSlide key={upcoming.id} className="upcoming__slide">
-          <img src={`${import.meta.env.VITE_IMG_FULL + upcoming.backdrop_path}`} alt="" className="upcoming__slide-img" />
-          <h2 className="upcoming__slide-title">
-            {upcoming.title}
-          </h2>
-          <p className="upcoming__slide-text">
-            {upcoming.overview}
-          </p>
+      {data?.map((upcoming: any) => (
+        <SwiperSlide key={upcoming.id} className="upcoming__slide">
+          <img
+            src={`${import.meta.env.VITE_IMG_FULL + upcoming.backdrop_path}`}
+            alt=""
+            className="upcoming__slide-img"
+          />
+          <h2 className="upcoming__slide-title">{upcoming.title}</h2>
+          <p className="upcoming__slide-text">{upcoming.overview}</p>
           <button className="upcoming__slide-btn">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -83,9 +70,8 @@ export default function Upcoming() {
             Подробнее
           </button>
         </SwiperSlide>
-        ))
-      }
-     
+      ))}
+
       <div
         className="autoplay-progress upcoming__progress"
         slot="container-end"
