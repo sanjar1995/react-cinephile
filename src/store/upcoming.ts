@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 
-const useUpcoming = create<StoreState>((set)=>({
+const useUpcoming = create<upcomingStore>((set)=>({
     upcoming:[],
     getUpcoming:(data:IUpcoming[])=>{
         set({upcoming:data})

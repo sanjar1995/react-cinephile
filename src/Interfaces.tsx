@@ -10,7 +10,15 @@ interface IUpcoming {
   poster_path: string;
   title: string;
 }
-interface StoreState {
+interface IMovieTv extends IUpcoming {
+  
+}
+interface upcomingStore {
   upcoming: IUpcoming[];
   getUpcoming: (data: any[]) => void;
+}
+interface movieOrTvStore {
+  movie: IMovieTv[];
+  tv: IMovieTv[];
+  getMovieOrTv: (data: any[], type:String) => void;
 }

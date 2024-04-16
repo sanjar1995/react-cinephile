@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
   import 'swiper/css';
 import 'swiper/css/pagination';
@@ -6,11 +6,16 @@ import 'swiper/css/navigation';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import Btn from './UI/Btn';
 import useUpcoming from '../store/upcoming';
-import bgMini from '@i/mini-bg.jpg'
+import useApi from '../hooks/useApi';
 export default function Upcoming() {
   const {upcoming} = useUpcoming()
   const line = useRef<HTMLDivElement | null>(null);
   const [nextSlide, setnextSlide] = useState(1)
+  const { data } = useApi('movie/upcoming');
+  const {getUpcoming} = useUpcoming()
+  useEffect(()=>{
+    getUpcoming(data)
+  },[data])
   const onAutoplayTimeLeft = (s:any, time:any, progress:any) => {
     if(line.current){
       line.current.style.width = `${( 1 - progress) * 100}%`;

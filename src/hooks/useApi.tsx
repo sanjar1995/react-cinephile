@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import api from "../api/ClientApi"
 
-function useApi() {
+function useApi(url:string) {
     const [data, setdata] = useState([])
     async function getData(){
-        let {data} = await api.get('movie/upcoming')
+        let {data} = await api.get(url)
         setdata(data.results)
     } 
     useEffect(()=>{
@@ -13,4 +13,4 @@ function useApi() {
   return {data}
 }
 
-export default useApi
+export default useApi 
