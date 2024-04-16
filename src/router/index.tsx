@@ -1,22 +1,27 @@
-import { IRouters } from "../Interfaces";
-import Films from "../pages/Tv";
-import Tv from "../pages/Films";
 import Home from "../pages/Home";
-
-export const router:IRouters[] = [
-  {
-    path: "/",
-    element: <Home />,
-    name: "Главная",
-  },
-  {
-    path: "/films",
-    element: <Films />,
-    name: "Фильмы",
-  },
-  {
-    path: "/tv",
-    element: <Tv />,
-    name: "Сериалы",
-  },
-];
+import Movie from "../pages/Movie";
+import Search from "../pages/Search";
+import Tv from "../pages/Tv";
+import searchIcon from "@i/search.svg";
+export const router:IRouter[] = [
+    {
+        path:'/',
+        element:<Home/>,
+        name:'Главная'
+    },
+    {
+        path:'/movie',
+        element:<Movie/>,
+        name:'Фильмы'
+    },
+    {
+        path:'/tv',
+        element:<Tv />,
+        name:'Сериалы'
+    },
+    {
+        path:'/search',
+        element:<Search />,
+        name: <img src={searchIcon} alt="" />
+    },
+]

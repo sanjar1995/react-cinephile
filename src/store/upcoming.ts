@@ -1,17 +1,11 @@
-import {create} from 'zustand';
+import { create } from "zustand";
 
 
+const useUpcoming = create<StoreState>((set)=>({
+    upcoming:[],
+    getUpcoming:(data:IUpcoming[])=>{
+        set({upcoming:data})
+    }
+}))
 
-interface StoreState {
-  upcoming: any[];
-  getUpcoming: (data:any[]) => void;
-}
-
-const useStore = create<StoreState>((set) => ({
-  upcoming: [],
-  getUpcoming: (data:any[]) => {
-    set({ upcoming: data });
-  },
-}));
-
-export default useStore;
+export default useUpcoming

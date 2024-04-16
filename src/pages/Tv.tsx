@@ -1,8 +1,9 @@
+import React from 'react'
 
-function About() {
+function Tv() {
   return (
-    <h1>About</h1>
+    <div>Tv</div>
   )
 }
 
-export default About
+export default Tv
