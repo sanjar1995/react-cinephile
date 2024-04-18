@@ -1,4 +1,3 @@
-import React, {useEffect} from "react";
 import Header from "./components/Header";
 import { Routes, Route } from "react-router-dom";
 import { router } from "./router";

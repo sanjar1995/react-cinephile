@@ -8,14 +8,15 @@ import Btn from './UI/Btn';
 import useUpcoming from '../store/upcoming';
 import useApi from '../hooks/useApi';
 export default function Upcoming() {
-  const {upcoming} = useUpcoming()
+  const {upcoming,getUpcoming} = useUpcoming()
   const line = useRef<HTMLDivElement | null>(null);
   const [nextSlide, setnextSlide] = useState(1)
   const { data } = useApi('movie/upcoming');
-  const {getUpcoming} = useUpcoming()
   useEffect(()=>{
     getUpcoming(data)
   },[data])
+  
+  
   const onAutoplayTimeLeft = (s:any, time:any, progress:any) => {
     if(line.current){
       line.current.style.width = `${( 1 - progress) * 100}%`;

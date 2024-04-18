@@ -1,12 +1,12 @@
+import Slider from '../components/Slider'
 import Upcoming from '../components/Upcoming'
-import MovieSlide from '../components/MovieSlide'
 
 function Home() {
   return (
     <>
     <Upcoming/>
-    <MovieSlide type="movie"/>
-    <MovieSlide type="tv"/>
+    <Slider type="movie"/>
+    <Slider type="tv"/>
     </>
   )
 }
